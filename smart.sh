@@ -1,43 +1,12 @@
 #!/bin/sh
 
-command -v git > /dev/null || $(printf ""$(echo "\033[31m")"This program requires git in order to run!"$(echo "[0m")"\n" && exit)
-command -v pacman > /dev/null || $(printf ""$(echo "\033[31m")"This program requires you to be using an Arch-based distribution in order to run!"$(echo "[0m")"\n" && exit)
+if ! command -v git > /dev/null; then
+	printf "\033[0;31mThis program requires git in order to run!\n" && exit
+fi
 
-cdsmi() {
-	cd $1
-	sudo make install
-	cd ..
-}
-
-compile_from_source() {
-	cd /tmp
-	git clone https://github.com/LukeSmithXYZ/dmenu
-	git clone https://github.com/LukeSmithXYZ/st
-	git clone https://git.cbps.xyz/swindlesmccoop/dwm
-	git clone https://git.cbps.xyz/swindlesmccoop/dwmblocks
-	git clone https://git.cbps.xyz/swindlesmccoop/PKGBUILDS
-
-	cdsmi dmenu
-	cdsmi st
-	cdsmi dwm
-	cdsmi dwmblocks
-
-	cd PKGBUILDs/vgmstream
-	makepkg -si
-	cd -
-}
-
-get_paru() {
-	sudo pacman -S --needed base-devel
-	git clone https://aur.archlinux.org/paru.git
-	cd paru
-	makepkg -si
-}
-
-get_deps() {
-	paru -Sy
-	paru -S --needed < packages.txt
-	pip install i3ipc ueberzug
+get_repos() {
+	git clone https://github.com/lukesmithxyz/dmenu
+	git clone https://github.com/lukesmithxyz/st
 }
 
 bootstrap() {
@@ -52,3 +21,22 @@ bootstrap() {
 	cp -r .local/* "$HOME/.local/"
 	sudo cp .zprofile /etc/zsh/zshenv || echo "You do not have sudo permission! Skipping zsh env."
 }
+
+dwm_route() {
+	git clone https://git.cbps.xyz/swindlesmccoop/dwm
+	git clone https://git.cbps.xyz/swindlesmccoop/dwmblocks
+}
+
+
+
+
+i3wm_route() {
+	printf "hi\n"
+}
+
+
+bspwm_route() {
+	printf "hi\n"
+}
+
+printf "HI\n"
